@@ -9,7 +9,7 @@ function getGenAI() {
 }
 
 /**
- * Kaizen Task Splitter (Gemini AI 1.5 Flash / 1.5 Pro)
+ * Kaizen Task Splitter (Gemini 3.6 Flash)
  * Breaks down a large task into 3-5 micro-tasks (<5 min each).
  */
 export async function breakdownTaskWithGemini(taskTitle: string): Promise<Array<{ title: string; durationMinutes: number }>> {
@@ -38,7 +38,7 @@ Example format:
   {"title": "Kumpulkan 2 referensi gambar/link (4 min)", "durationMinutes": 4}
 ]`;
 
-  const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp"];
+  const modelsToTry = ["gemini-1.5-flash", "gemini-2.0-flash-exp", "gemini-1.5-pro"];
   let responseText = "";
 
   for (const modelName of modelsToTry) {
@@ -77,7 +77,7 @@ Example format:
 }
 
 /**
- * Post-Session Reflection (Gemini AI 1.5 Flash / 1.5 Pro)
+ * Post-Session Reflection (Gemini 3.6 Flash)
  * Analyzes session reflection + user Ikigai purpose, providing 1-sentence encouraging feedback.
  */
 export async function reflectWithGemini(
@@ -98,7 +98,7 @@ User's 1-sentence reflection: "${userReflection}"
 
 Provide a warm, highly encouraging, wise 1-sentence feedback (in Indonesian) connecting their small focus victory today to their larger Ikigai purpose. Keep it under 25 words. Do not use quotes.`;
 
-  const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp"];
+  const modelsToTry = ["gemini-1.5-flash", "gemini-2.0-flash-exp", "gemini-1.5-pro"];
 
   for (const modelName of modelsToTry) {
     try {

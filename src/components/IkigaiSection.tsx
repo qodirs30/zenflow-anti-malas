@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import { useAppState } from "@/context/AppStateContext";
-import { Compass, Edit3, Check, Sparkles } from "lucide-react";
+import { Compass, Edit3, Check } from "lucide-react";
 
 export const IkigaiSection: React.FC = () => {
-  const { ikigai, setIkigaiGoal } = useAppState();
+  const { ikigai, setIkigai } = useAppState();
 
   const [isEditing, setIsEditing] = useState(false);
   const [goalInput, setGoalInput] = useState(ikigai.goalTitle);
@@ -13,13 +13,16 @@ export const IkigaiSection: React.FC = () => {
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     if (goalInput.trim()) {
-      setIkigaiGoal(goalInput.trim());
+      setIkigai({
+        ...ikigai,
+        goalTitle: goalInput.trim(),
+      });
       setIsEditing(false);
     }
   };
 
   return (
-    <section className="w-full zen-glass rounded-3xl p-6 sm:p-10 shadow-zen-card dark:shadow-zen-card-dark relative overflow-hidden transition-all duration-300">
+    <section className="w-full zen-glass rounded-3xl p-6 sm:p-10 shadow-zen-card dark:shadow-zen-card-dark relative overflow-hidden transition-all duration-300 font-sans">
       {/* Subtle Background Accent */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
