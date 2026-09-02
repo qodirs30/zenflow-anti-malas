@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useAppState } from "@/context/AppStateContext";
-import { Sparkles, Sun, Moon, Flame, Compass } from "lucide-react";
+import { Sparkles, Sun, Moon, Flame, Compass, ShieldCheck } from "lucide-react";
 
 interface HeaderProps {
   darkMode: boolean;
@@ -10,26 +10,30 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
-  const { focusSessions, ikigai } = useAppState();
+  const { focusSessions } = useAppState();
 
   return (
-    <header className="w-full border-b border-stone-200 dark:border-stone-800 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-md sticky top-0 z-30 transition-colors duration-300">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        {/* Brand Logo & Japanese Kanji */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-emerald-700 dark:bg-emerald-600 text-white flex items-center justify-center font-serif text-lg shadow-sm">
-            禅
+    <header className="w-full border-b border-stone-200/80 dark:border-stone-800/80 bg-white/70 dark:bg-[#0A0A0B]/70 backdrop-blur-2xl sticky top-0 z-40 transition-colors duration-300">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+        {/* Brand Stamp & Japanese Kanji */}
+        <div className="flex items-center gap-3.5">
+          <div className="relative group cursor-pointer">
+            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-500 opacity-40 blur-md group-hover:opacity-75 transition duration-500" />
+            <div className="relative w-11 h-11 rounded-2xl bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-950 flex items-center justify-center font-japanese text-xl shadow-lg">
+              禅
+            </div>
           </div>
+
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-serif text-xl tracking-tight text-stone-900 dark:text-stone-100 font-medium">
+              <h1 className="font-serif text-2xl tracking-tight text-stone-900 dark:text-stone-50 font-bold">
                 ZenFlow
               </h1>
-              <span className="text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 font-semibold border border-emerald-200 dark:border-emerald-800">
-                Kaizen AI
+              <span className="text-[10px] font-sans font-semibold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/60 shadow-sm">
+                Kaizen AI 3.7
               </span>
             </div>
-            <p className="text-xs text-stone-500 dark:text-stone-400 font-sans hidden sm:block">
+            <p className="text-xs text-stone-500 dark:text-stone-400 font-sans tracking-wide hidden sm:block">
               Ikigai • Kaizen • Osoji • Ichigo Ichie
             </p>
           </div>
@@ -37,20 +41,20 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
 
         {/* Action Widgets */}
         <div className="flex items-center gap-3 sm:gap-4">
-          {/* Focus Sessions Counter */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-100 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-xs text-stone-700 dark:text-stone-300">
-            <Flame className="w-3.5 h-3.5 text-amber-600 dark:text-amber-500" />
-            <span className="font-medium">{focusSessions.length} Sesi Fokus</span>
+          {/* Focus Sessions Counter Badge */}
+          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-100/80 dark:bg-stone-900/80 border border-stone-200/80 dark:border-stone-800 text-xs font-sans font-medium text-stone-800 dark:text-stone-200 shadow-sm">
+            <Flame className="w-4 h-4 text-amber-600 dark:text-amber-500 fill-amber-500/20" />
+            <span>{focusSessions.length} Sesi Fokus</span>
           </div>
 
-          {/* Dark / Light Toggle */}
+          {/* Theme Toggle Button */}
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="p-2 rounded-full text-stone-600 dark:text-stone-300 hover:bg-stone-200/60 dark:hover:bg-stone-800 transition-colors duration-200"
-            title={darkMode ? "Switch to Zen Light Mode" : "Switch to Zen Dark Mode"}
+            className="p-2.5 rounded-2xl bg-stone-100/80 dark:bg-stone-900/80 border border-stone-200/80 dark:border-stone-800 text-stone-700 dark:text-stone-300 hover:scale-105 active:scale-95 transition-all shadow-sm"
+            title={darkMode ? "Ubah ke Zen Light Mode" : "Ubah ke Zen Dark Mode"}
             aria-label="Toggle Theme"
           >
-            {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-stone-700" />}
+            {darkMode ? <Sun className="w-4 h-4 text-amber-400 fill-amber-400/20" /> : <Moon className="w-4 h-4 text-stone-700" />}
           </button>
         </div>
       </div>
