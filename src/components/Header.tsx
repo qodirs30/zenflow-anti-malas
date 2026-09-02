@@ -2,14 +2,23 @@
 
 import React from "react";
 import { useAppState } from "@/context/AppStateContext";
-import { Sparkles, Sun, Moon, Flame, Compass, ShieldCheck } from "lucide-react";
+import { Sparkles, Sun, Moon, Flame, HelpCircle, MessageSquare } from "lucide-react";
 
 interface HeaderProps {
   darkMode: boolean;
   setDarkMode: (val: boolean) => void;
+  onOpenAbout: () => void;
+  onToggleChat: () => void;
+  isChatOpen: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
+export const Header: React.FC<HeaderProps> = ({
+  darkMode,
+  setDarkMode,
+  onOpenAbout,
+  onToggleChat,
+  isChatOpen,
+}) => {
   const { focusSessions } = useAppState();
 
   return (
@@ -17,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
         {/* Brand Stamp & Japanese Kanji */}
         <div className="flex items-center gap-3.5">
-          <div className="relative group cursor-pointer">
+          <div className="relative group cursor-pointer" onClick={onOpenAbout}>
             <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-500 opacity-40 blur-md group-hover:opacity-75 transition duration-500" />
             <div className="relative w-11 h-11 rounded-2xl bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-950 flex items-center justify-center font-japanese text-xl shadow-lg">
               禅
@@ -40,18 +49,42 @@ export const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
         </div>
 
         {/* Action Widgets */}
-        <div className="flex items-center gap-3 sm:gap-4">
-          {/* Focus Sessions Counter Badge */}
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-100/80 dark:bg-stone-900/80 border border-stone-200/80 dark:border-stone-800 text-xs font-sans font-medium text-stone-800 dark:text-stone-200 shadow-sm">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* About ZenFlow Trigger */}
+          <button
+            onClick={onOpenAbout}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-100/80 dark:bg-stone-900/80 border border-stone-200/80 dark:border-stone-800 text-xs font-sans font-semibold text-stone-700 dark:text-stone-300 hover:bg-stone-200/60 dark:hover:bg-stone-800 transition-all shadow-sm"
+            title="Tentang 4 Filosofi ZenFlow"
+          >
+            <HelpCircle className="w-3.5 h-3.5 text-emerald-600" />
+            <span className="hidden sm:inline">Tentang ZenFlow</span>
+          </button>
+
+          {/* Sensei AI Consultation Toggle */}
+          <button
+            onClick={onToggleChat}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-sans font-semibold transition-all shadow-sm ${
+              isChatOpen
+                ? "bg-emerald-700 text-white shadow-emerald-700/20"
+                : "bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-200/80 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60"
+            }`}
+            title="Konsultasi Sensei AI"
+          >
+            <MessageSquare className="w-3.5 h-3.5" />
+            <span>Sensei AI</span>
+          </button>
+
+          {/* Focus Sessions Badge */}
+          <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-100/80 dark:bg-stone-900/80 border border-stone-200/80 dark:border-stone-800 text-xs font-sans font-medium text-stone-800 dark:text-stone-200 shadow-sm">
             <Flame className="w-4 h-4 text-amber-600 dark:text-amber-500 fill-amber-500/20" />
-            <span>{focusSessions.length} Sesi Fokus</span>
+            <span>{focusSessions.length} Sesi</span>
           </div>
 
-          {/* Theme Toggle Button */}
+          {/* Theme Toggle */}
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="p-2.5 rounded-2xl bg-stone-100/80 dark:bg-stone-900/80 border border-stone-200/80 dark:border-stone-800 text-stone-700 dark:text-stone-300 hover:scale-105 active:scale-95 transition-all shadow-sm"
-            title={darkMode ? "Ubah ke Zen Light Mode" : "Ubah ke Zen Dark Mode"}
+            className="p-2 rounded-xl bg-stone-100/80 dark:bg-stone-900/80 border border-stone-200/80 dark:border-stone-800 text-stone-700 dark:text-stone-300 hover:scale-105 active:scale-95 transition-all shadow-sm"
+            title={darkMode ? "Zen Light Mode" : "Zen Dark Mode"}
             aria-label="Toggle Theme"
           >
             {darkMode ? <Sun className="w-4 h-4 text-amber-400 fill-amber-400/20" /> : <Moon className="w-4 h-4 text-stone-700" />}
