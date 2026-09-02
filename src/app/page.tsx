@@ -41,7 +41,7 @@ export default function Home() {
 
   return (
     <div className={darkMode ? "dark" : ""}>
-      <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#0A0A0B] text-stone-900 dark:text-stone-100 flex flex-col justify-between transition-colors duration-500 relative">
+      <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#0A0A0B] text-stone-900 dark:text-stone-100 flex flex-col justify-between transition-colors duration-500 relative font-sans">
         
         {/* Ambient Lighting Glows */}
         <div className="fixed top-12 left-1/2 -translate-x-1/2 w-[750px] h-[380px] bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none" />
@@ -65,7 +65,7 @@ export default function Home() {
                 <span>Anti-Malas dengan 4 Filosofi Jepang &amp; Gemini AI</span>
               </div>
 
-              <h2 className="font-serif text-3xl sm:text-5xl font-bold text-stone-900 dark:text-stone-50 tracking-tight leading-tight">
+              <h2 className="font-sans text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-stone-50 tracking-tight leading-tight">
                 Mulai Ketenangan Fokus Hari Ini
               </h2>
 
@@ -133,13 +133,13 @@ export default function Home() {
         {flowStage === 'POST_REFLECTION' && <ReflectionModal />}
 
         {/* Footer */}
-        <footer className="w-full border-t border-stone-200/80 dark:border-stone-800/80 py-8 mt-16 bg-white/40 dark:bg-stone-900/40 relative z-10">
+        <footer className="w-full border-t border-stone-200/80 dark:border-stone-800/80 py-8 mt-16 bg-white/40 dark:bg-stone-900/40 relative z-10 font-sans">
           <div className="max-w-4xl mx-auto px-4 text-center text-xs font-sans text-stone-500 dark:text-stone-400 space-y-1.5">
-            <p className="flex items-center justify-center gap-1.5 font-serif text-sm text-stone-800 dark:text-stone-200 font-bold">
+            <p className="flex items-center justify-center gap-1.5 font-sans text-sm text-stone-800 dark:text-stone-200 font-bold">
               ZenFlow — 生き甲斐 &amp; 改善
             </p>
             <p className="text-xs text-stone-500 dark:text-stone-400">
-              Dibuat dengan rasa hormat pada waktu &amp; kesadaran penuh • Ditenagai Gemini AI 3.6 &amp; 3.7
+              Dibuat dengan rasa hormat pada waktu &amp; kesadaran penuh • Ditenagai Gemini AI 1.5
             </p>
           </div>
         </footer>

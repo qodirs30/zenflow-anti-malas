@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useAppState } from "@/context/AppStateContext";
-import { MessageSquare, X, Send, Sparkles, Bot, User, Minimize2 } from "lucide-react";
+import { MessageSquare, X, Send, Sparkles, Bot, User } from "lucide-react";
 
 interface ChatMessage {
   id: string;
@@ -72,7 +72,7 @@ export const SenseiChatbot: React.FC<SenseiChatbotProps> = ({ isOpen, onClose })
       const data = await res.json();
 
       const senseiMsg: ChatMessage = {
-        id: "sn- " + Date.now(),
+        id: "sn-" + Date.now(),
         role: "sensei",
         content: data.reply || "Aksi mikro terkecil hari ini lebih berharga daripada niat besar tanpa pelaksanaan.",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -94,7 +94,7 @@ export const SenseiChatbot: React.FC<SenseiChatbotProps> = ({ isOpen, onClose })
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 w-full max-w-sm sm:max-w-md bg-white dark:bg-[#121214] border border-stone-200 dark:border-stone-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[520px] animate-in slide-in-from-bottom-5 duration-300">
+    <div className="fixed bottom-4 right-4 z-50 w-full max-w-sm sm:max-w-md bg-white dark:bg-[#121214] border border-stone-200 dark:border-stone-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[520px] animate-in slide-in-from-bottom-5 duration-300 font-sans">
       {/* Top Banner */}
       <div className="p-4 bg-stone-900 text-stone-100 flex items-center justify-between border-b border-stone-800">
         <div className="flex items-center gap-3">
@@ -103,10 +103,10 @@ export const SenseiChatbot: React.FC<SenseiChatbotProps> = ({ isOpen, onClose })
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <h3 className="font-serif font-bold text-sm text-stone-100">Sensei Zen AI</h3>
+              <h3 className="font-sans font-bold text-sm text-stone-100">Sensei Zen AI</h3>
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             </div>
-            <p className="text-[10px] text-stone-400">Konsultasi Produktivitas &amp; Ikigai</p>
+            <p className="text-[10px] text-stone-400 font-sans">Konsultasi Produktivitas &amp; Ikigai</p>
           </div>
         </div>
 

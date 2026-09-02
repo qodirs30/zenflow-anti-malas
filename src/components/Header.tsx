@@ -35,7 +35,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-serif text-2xl tracking-tight text-stone-900 dark:text-stone-50 font-bold">
+              <h1 className="font-sans text-2xl tracking-tight text-stone-900 dark:text-stone-50 font-extrabold">
                 ZenFlow
               </h1>
               <span className="text-[10px] font-sans font-semibold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/60 shadow-sm">
@@ -75,7 +75,7 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* Focus Sessions Badge */}
-          <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-100/80 dark:bg-stone-900/80 border border-stone-200/80 dark:border-stone-800 text-xs font-sans font-medium text-stone-800 dark:text-stone-200 shadow-sm">
+          <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-100/80 dark:bg-stone-900/80 border border-stone-200/80 dark:border-stone-800 text-xs font-sans font-semibold text-stone-800 dark:text-stone-200 shadow-sm">
             <Flame className="w-4 h-4 text-amber-600 dark:text-amber-500 fill-amber-500/20" />
             <span>{focusSessions.length} Sesi</span>
           </div>

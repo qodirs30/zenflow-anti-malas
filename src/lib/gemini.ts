@@ -1,9 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-/**
- * Helper to obtain the Gemini API instance.
- * Uses process.env.GEMINI_API_KEY securely on the server side.
- */
 function getGenAI() {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
@@ -13,7 +9,7 @@ function getGenAI() {
 }
 
 /**
- * Kaizen Task Splitter (Gemini 3.6 Flash / gemini-2.5-flash)
+ * Kaizen Task Splitter (Gemini AI 1.5 Flash / 1.5 Pro)
  * Breaks down a large task into 3-5 micro-tasks (<5 min each).
  */
 export async function breakdownTaskWithGemini(taskTitle: string): Promise<Array<{ title: string; durationMinutes: number }>> {
@@ -42,23 +38,28 @@ Example format:
   {"title": "Kumpulkan 2 referensi gambar/link (4 min)", "durationMinutes": 4}
 ]`;
 
-  try {
-    // Model fallback strategy: gemini-2.5-flash -> gemini-1.5-flash
-    let modelName = "gemini-2.5-flash";
-    let model = ai.getGenerativeModel({ model: modelName });
-    
-    let responseText = "";
-    try {
-      const result = await model.generateContent(prompt);
-      responseText = result.response.text();
-    } catch {
-      // Fallback to gemini-1.5-flash if model identifier differs
-      model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const result = await model.generateContent(prompt);
-      responseText = result.response.text();
-    }
+  const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp"];
+  let responseText = "";
 
-    // Clean JSON response
+  for (const modelName of modelsToTry) {
+    try {
+      const model = ai.getGenerativeModel({ model: modelName });
+      const result = await model.generateContent(prompt);
+      const text = result.response.text();
+      if (text) {
+        responseText = text;
+        break;
+      }
+    } catch (e) {
+      console.warn(`Breakdown model ${modelName} failed:`, e);
+    }
+  }
+
+  if (!responseText) {
+    return generateFallbackBreakdown(taskTitle);
+  }
+
+  try {
     const cleanedText = responseText.replace(/```json/gi, "").replace(/```/g, "").trim();
     const parsed = JSON.parse(cleanedText);
 
@@ -68,15 +69,15 @@ Example format:
         durationMinutes: Math.min(5, Math.max(2, Number(item.durationMinutes) || 3)),
       }));
     }
-    return generateFallbackBreakdown(taskTitle);
-  } catch (error) {
-    console.error("Gemini Task Breakdown Error:", error);
-    return generateFallbackBreakdown(taskTitle);
+  } catch (err) {
+    console.error("Failed to parse Gemini task breakdown JSON:", err);
   }
+
+  return generateFallbackBreakdown(taskTitle);
 }
 
 /**
- * Post-Session Reflection (Gemini 3.7 Flash / gemini-2.5-pro / flash)
+ * Post-Session Reflection (Gemini AI 1.5 Flash / 1.5 Pro)
  * Analyzes session reflection + user Ikigai purpose, providing 1-sentence encouraging feedback.
  */
 export async function reflectWithGemini(
@@ -97,23 +98,24 @@ User's 1-sentence reflection: "${userReflection}"
 
 Provide a warm, highly encouraging, wise 1-sentence feedback (in Indonesian) connecting their small focus victory today to their larger Ikigai purpose. Keep it under 25 words. Do not use quotes.`;
 
-  try {
-    let model = ai.getGenerativeModel({ model: "gemini-2.5-flash" });
+  const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp"];
+
+  for (const modelName of modelsToTry) {
     try {
+      const model = ai.getGenerativeModel({ model: modelName });
       const result = await model.generateContent(prompt);
-      return result.response.text().trim();
-    } catch {
-      model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const result = await model.generateContent(prompt);
-      return result.response.text().trim();
+      const text = result.response.text().trim();
+      if (text) {
+        return text;
+      }
+    } catch (e) {
+      console.warn(`Reflection model ${modelName} failed:`, e);
     }
-  } catch (error) {
-    console.error("Gemini Reflection Error:", error);
-    return generateFallbackReflection(ikigaiPurpose);
   }
+
+  return generateFallbackReflection(ikigaiPurpose);
 }
 
-// Fallbacks for local offline or unset API key testing
 function generateFallbackBreakdown(taskTitle: string) {
   return [
     { title: `Buka workspace & siapkan catatan untuk "${taskTitle}"`, durationMinutes: 2 },

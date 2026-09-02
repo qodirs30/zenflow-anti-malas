@@ -12,26 +12,25 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { sessionsCount, completedTasksCount, totalFocusMinutes, ikigaiPurpose, recentTasks } = body;
 
+    const fallbackAnalytics = {
+      headline: "Konsistensi Tenang Adalah Kunci Kaizen",
+      summary: `Kamu telah menyelesaikan ${sessionsCount || 0} sesi fokus (${totalFocusMinutes || 0} menit) dan ${completedTasksCount || 0} tugas mikro dengan baik.`,
+      strengths: [
+        "Memulai sesi dengan persiapan ritual Osoji yang disiplin",
+        "Memecah tugas besar menjadi langkah mikro yang realistis",
+        "Menjaga ritme fokus tanpa terburu-buru",
+      ],
+      recommendations: [
+        "Pertahankan 2-3 sesi fokus berkualitas tinggi setiap hari daripada memaksakan kelelahan",
+        "Gunakan jeda singkat 5 menit di antara sesi untuk menyegarkan pikiran",
+      ],
+      efficiencyScore: Math.min(98, 75 + (sessionsCount || 0) * 5 + (completedTasksCount || 0) * 2),
+    };
+
     const ai = getGenAI();
 
     if (!ai) {
-      return NextResponse.json({
-        success: true,
-        analytics: {
-          headline: "Konsistensi Tenang Adalah Kunci Kaizen",
-          summary: `Kamu telah menyelesaikan ${sessionsCount || 0} sesi fokus (${totalFocusMinutes || 0} menit) dan ${completedTasksCount || 0} tugas mikro dengan baik.`,
-          strengths: [
-            "Memulai sesi dengan persiapan ritual Osoji yang disiplin",
-            "Memecah tugas besar menjadi langkah mikro yang realistis",
-            "Menjaga ritme fokus tanpa terburu-buru",
-          ],
-          recommendations: [
-            "Pertahankan 2-3 sesi fokus berkualitas tinggi setiap hari daripada memaksakan kelelahan",
-            "Gunakan jeda singkat 5 menit di antara sesi untuk menyegarkan pikiran",
-          ],
-          efficiencyScore: 88,
-        },
-      });
+      return NextResponse.json({ success: true, analytics: fallbackAnalytics });
     }
 
     const prompt = `You are a Japanese Kaizen & Ikigai Productivity Analyst.
@@ -51,42 +50,31 @@ Provide a structured, deeply inspiring JSON analysis in Indonesian with:
 
 Output raw JSON only with no markdown backticks.`;
 
-    try {
-      let model = ai.getGenerativeModel({ model: "gemini-2.5-flash" });
-      let responseText = "";
+    const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp"];
+    let responseText = "";
+
+    for (const modelName of modelsToTry) {
       try {
+        const model = ai.getGenerativeModel({ model: modelName });
         const result = await model.generateContent(prompt);
-        responseText = result.response.text();
-      } catch {
-        model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
-        const result = await model.generateContent(prompt);
-        responseText = result.response.text();
+        const text = result.response.text();
+        if (text) {
+          responseText = text;
+          break;
+        }
+      } catch (e) {
+        console.warn(`Analytics model ${modelName} failed:`, e);
       }
-
-      const cleaned = responseText.replace(/```json/gi, "").replace(/```/g, "").trim();
-      const parsed = JSON.parse(cleaned);
-
-      return NextResponse.json({ success: true, analytics: parsed });
-    } catch (err) {
-      console.error("AI Analytics Parsing Error:", err);
-      return NextResponse.json({
-        success: true,
-        analytics: {
-          headline: "Langkah Kecil Hari Ini Adalah Fondasi Ikigaimu",
-          summary: `Dengan ${sessionsCount || 0} sesi fokus dan ${completedTasksCount || 0} tugas terselesaikan, kamu menunjukkan kemajuan nyata.`,
-          strengths: [
-            "Keberanian memulai micro-step pertama",
-            "Menjaga perhatian murni selama sesi Ichigo Ichie",
-            "Refleksi diri yang berkelanjutan",
-          ],
-          recommendations: [
-            "Fokus pada proses daripada beban hasil akhir",
-            "Jaga keseimbangan energi dengan istirahat yang bermakna",
-          ],
-          efficiencyScore: 85,
-        },
-      });
     }
+
+    if (!responseText) {
+      return NextResponse.json({ success: true, analytics: fallbackAnalytics });
+    }
+
+    const cleaned = responseText.replace(/```json/gi, "").replace(/```/g, "").trim();
+    const parsed = JSON.parse(cleaned);
+
+    return NextResponse.json({ success: true, analytics: parsed });
   } catch (error) {
     console.error("API /api/ai/analytics Error:", error);
     return NextResponse.json({ error: "Gagal membuat analisa AI." }, { status: 500 });

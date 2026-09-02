@@ -66,7 +66,7 @@ export const AiAnalyticsSection: React.FC = () => {
             <span className="text-xs uppercase tracking-widest font-semibold text-emerald-700 dark:text-emerald-400 font-sans">
               Analisa AI Keseluruhan Tugas &amp; Produktivitas
             </span>
-            <h2 className="text-lg sm:text-xl font-serif font-bold text-stone-900 dark:text-stone-100">
+            <h2 className="text-lg sm:text-xl font-sans font-bold text-stone-900 dark:text-stone-100">
               Evaluasi Kaizen &amp; Saran Pengembangan Diri
             </h2>
           </div>
@@ -88,7 +88,7 @@ export const AiAnalyticsSection: React.FC = () => {
           <span className="text-[10px] sm:text-xs font-sans uppercase font-semibold text-stone-500 dark:text-stone-400 block mb-1">
             Total Sesi Fokus
           </span>
-          <span className="font-serif text-2xl sm:text-3xl font-bold text-emerald-700 dark:text-emerald-400">
+          <span className="font-sans text-2xl sm:text-3xl font-extrabold text-emerald-700 dark:text-emerald-400">
             {focusSessions.length}
           </span>
         </div>
@@ -97,7 +97,7 @@ export const AiAnalyticsSection: React.FC = () => {
           <span className="text-[10px] sm:text-xs font-sans uppercase font-semibold text-stone-500 dark:text-stone-400 block mb-1">
             Waktu Murni Fokus
           </span>
-          <span className="font-serif text-2xl sm:text-3xl font-bold text-amber-700 dark:text-amber-400">
+          <span className="font-sans text-2xl sm:text-3xl font-extrabold text-amber-700 dark:text-amber-400">
             {totalFocusMinutes}m
           </span>
         </div>
@@ -106,7 +106,7 @@ export const AiAnalyticsSection: React.FC = () => {
           <span className="text-[10px] sm:text-xs font-sans uppercase font-semibold text-stone-500 dark:text-stone-400 block mb-1">
             Skor Efisiensi AI
           </span>
-          <span className="font-serif text-2xl sm:text-3xl font-bold text-teal-700 dark:text-teal-400">
+          <span className="font-sans text-2xl sm:text-3xl font-extrabold text-teal-700 dark:text-teal-400">
             {analytics?.efficiencyScore || 88}%
           </span>
         </div>
@@ -128,9 +128,9 @@ export const AiAnalyticsSection: React.FC = () => {
           <div className="p-5 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-amber-500/10 border border-emerald-500/20 space-y-2">
             <div className="flex items-center gap-2 text-xs font-semibold text-emerald-800 dark:text-emerald-300">
               <Sparkles className="w-4 h-4 text-emerald-600" />
-              <span>Ringkasan Rangkuman AI Gemini 3.7</span>
+              <span>Ringkasan Rangkuman AI Gemini 1.5</span>
             </div>
-            <p className="font-serif text-lg font-bold text-stone-900 dark:text-stone-50 italic">
+            <p className="font-sans text-base sm:text-lg font-bold text-stone-900 dark:text-stone-50">
               &ldquo;{analytics.headline}&rdquo;
             </p>
             <p className="text-xs sm:text-sm font-sans text-stone-600 dark:text-stone-300 leading-relaxed">
