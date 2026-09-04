@@ -27,8 +27,8 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", "Plus Jakarta Sans", "Inter", "sans-serif"],
-        serif: ["var(--font-serif)", "Cormorant Garamond", "Georgia", "serif"],
-        japanese: ["var(--font-japanese)", "Noto Serif JP", "serif"],
+        serif: ["Plus Jakarta Sans", "Inter", "sans-serif"],
+        japanese: ["Plus Jakarta Sans", "Inter", "sans-serif"],
       },
       boxShadow: {
         "zen-glow": "0 0 30px -5px rgba(16, 185, 129, 0.15)",
