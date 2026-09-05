@@ -98,8 +98,8 @@ export const SenseiChatbot: React.FC<SenseiChatbotProps> = ({ isOpen, onClose })
       {/* Top Banner */}
       <div className="p-4 bg-stone-900 text-stone-100 flex items-center justify-between border-b border-stone-800">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-japanese text-sm shadow-md">
-            禅
+          <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center shadow-md overflow-hidden">
+            <img src="/zenflow.jpeg" alt="Sensei Zen" className="w-full h-full object-cover" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
@@ -126,13 +126,13 @@ export const SenseiChatbot: React.FC<SenseiChatbotProps> = ({ isOpen, onClose })
             className={`flex items-start gap-2.5 ${msg.role === "user" ? "flex-row-reverse" : ""}`}
           >
             <div
-              className={`w-7 h-7 rounded-full flex items-center justify-center text-xs shrink-0 ${
+              className={`w-7 h-7 rounded-full flex items-center justify-center text-xs shrink-0 overflow-hidden ${
                 msg.role === "user"
                   ? "bg-emerald-700 text-white font-sans font-semibold"
-                  : "bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-950 font-japanese"
+                  : "bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-950"
               }`}
             >
-              {msg.role === "user" ? "U" : "禅"}
+              {msg.role === "user" ? "U" : <img src="/zenflow.jpeg" alt="Sensei Zen" className="w-full h-full object-cover" />}
             </div>
 
             <div

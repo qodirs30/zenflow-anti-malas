@@ -28,8 +28,8 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-3.5">
           <div className="relative group cursor-pointer" onClick={onOpenAbout}>
             <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-500 opacity-40 blur-md group-hover:opacity-75 transition duration-500" />
-            <div className="relative w-11 h-11 rounded-2xl bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-950 flex items-center justify-center font-japanese text-xl shadow-lg">
-              禅
+            <div className="relative w-11 h-11 rounded-2xl bg-stone-900 dark:bg-stone-100 flex items-center justify-center shadow-lg overflow-hidden">
+              <img src="/zenflow.jpeg" alt="ZenFlow Logo" className="w-full h-full object-cover" />
             </div>
           </div>
 

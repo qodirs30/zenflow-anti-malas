@@ -20,8 +20,8 @@ export const AboutZenFlowModal: React.FC<AboutZenFlowModalProps> = ({ isOpen, on
         {/* Header */}
         <div className="flex items-start justify-between gap-4 mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-950 flex items-center justify-center font-japanese text-2xl shadow-md">
-              禅
+            <div className="w-11 h-11 rounded-2xl bg-stone-900 dark:bg-stone-100 flex items-center justify-center shadow-md overflow-hidden">
+              <img src="/zenflow.jpeg" alt="ZenFlow Logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <span className="text-[11px] font-sans uppercase tracking-widest font-semibold text-emerald-700 dark:text-emerald-400">
